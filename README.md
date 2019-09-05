@@ -73,3 +73,14 @@ A boolean that will result in the data being de-duplicated. Currently this will 
 | This                                                                          | Becomes                                    |
 |-------------------------------------------------------------------------------|--------------------------------------------|
 | ```[{'city': 'BETHESDA', 'state': 'MD'},{'city': 'BETHESDA','state': 'MD'}]```| ```[{'city': 'BETHESDA', 'state': 'MD'}]```|
+
+#### orderByState
+A string that will let you pick which state to put at the beginning of the data
+```
+orderByState: 'MD'
+```
+
+#### stringDelimiter
+This will delimit each address in the line
+```
+stringDelimiter: ' | '

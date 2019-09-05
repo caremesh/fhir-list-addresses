@@ -31,19 +31,37 @@ describe('processing a fhir record', function() {
           length: 29,
         },
       });
-      expect(data.line.string.length).to.eql(29);
+      expect(data.line.string.length).to.eql(33);
     });
 
     it('should allow an ellipsis to the line added to the end of the line', function() {
       const data = fhirListAddresses(practitioner, {
         line: {
+          length: 30,
           addEllipsis: true,
         },
       });
 
-      expect(data.line.string.length).to.eql(260);
-      expect(data.line.string.indexOf('...')).to.eql(257);
+      console.log(data.line.string);
+      expect(data.line.string.length).to.eql(34);
+      expect(data.line.string.indexOf('...')).to.eql(31);
     });
+
+    it('should order by homeState', function() {
+      const data = fhirListAddresses(practitioner, {
+        orderByState: 'MD',
+      });
+
+      expect(data.data[0].state).to.eql('MD');
+    });
+
+    it('should allow a change of string delimiter', function() {
+      const data = fhirListAddresses(practitioner, {
+        stringDelimiter: '|',
+      });
+      expect(data.line.string.indexOf('|')).to.not.eql(-1);
+    });
+
 
     describe('specifying address parts', function() {
       it('should allow specific attributes to be returned', function() {
