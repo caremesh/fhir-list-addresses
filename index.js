@@ -28,7 +28,7 @@ module.exports = function(practitioner, opts = {}) {
     });
 
     fullLine = _.cloneDeep(line);
-    const shouldAddEllipsis = (_.get(opts, 'line.addEllipsis', false) || (line.length > _.get(opts, 'line.length')));
+    const shouldAddEllipsis = (_.get(opts, 'line.addEllipsis', false) && (line.length > _.get(opts, 'line.length')));
     if (_.has(opts, 'line.length') && line.length > _.get(opts, 'line.length')) {
       line = `${_.trimEnd(line.substring(0, _.get(opts, 'line.length')))}`;
       truncated = true;
