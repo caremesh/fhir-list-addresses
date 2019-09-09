@@ -7,7 +7,7 @@ describe('processing a fhir record', function() {
   it('should return the data with line information', function() {
     const data = fhirListAddresses(practitioner);
     expect(data.data.length).to.eql(4);
-    expect(data.line.string.length).to.eql(256);
+    expect(data.line.string.length).to.eql(245);
     expect(data.line.truncated).to.eql(false);
     expect(data.data[0]).to.have.keys('use', 'city', 'line', 'type', 'state', 'country', 'postalCode');
   });
@@ -31,7 +31,7 @@ describe('processing a fhir record', function() {
           length: 29,
         },
       });
-      expect(data.line.string.length).to.eql(33);
+      expect(data.line.string.length).to.eql(29);
     });
 
     it('should allow an ellipsis to the line added to the end of the line', function() {
@@ -42,7 +42,6 @@ describe('processing a fhir record', function() {
         },
       });
 
-      console.log(data.line.string);
       expect(data.line.string.length).to.eql(34);
       expect(data.line.string.indexOf('...')).to.eql(31);
     });
@@ -79,6 +78,36 @@ describe('processing a fhir record', function() {
           deDuplicate: true,
         });
         expect(data.data.length).to.eql(2);
+      });
+    });
+
+    describe('with lowercase city name', function() {
+      it('should captialize data', function() {
+        const practitionerCapitalize = _.cloneDeep(practitioner);
+        practitionerCapitalize.address.push({
+          "use": "work",
+          "city": "Washington",
+          "line": [
+            "1600 PENNSYLVANIA AVENUE"
+          ],
+          "type": "postal",
+          "state": "DC",
+          "country": "US",
+          "postalCode": "20037"
+        });
+
+        const data = fhirListAddresses(practitionerCapitalize, {
+          line: {
+            length: 42,
+            addEllipsis: true,
+          },
+          includeAddressAttributes: ['city', 'state'],
+          deDuplicate: true,
+          stringDelimiter: ' | ',
+        });
+        expect(data.data.length).to.eql(2);
+        expect(data.line.string.length).to.eql(29);
+        expect(data.line.truncated).to.eql(false);
       });
     });
   });

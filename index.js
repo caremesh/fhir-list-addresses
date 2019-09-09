@@ -6,7 +6,11 @@ module.exports = function(practitioner, opts = {}) {
     const data = {};
     _.forEach(addressParts, (part) => {
       if (_.has(item, part) && item[part] !== '') {
-        data[part] = item[part];
+        if (typeof item[part] === 'string') {
+          data[part] = item[part].toUpperCase();
+        } else {
+          data[part] = item[part];
+        }
       }
     });
     return data;
@@ -17,9 +21,15 @@ module.exports = function(practitioner, opts = {}) {
     let truncated = false;
     _.forEach(dataArray, (pair, i) => {
       _.forEach(addressParts, (part, j) => {
-        line = `${line}${pair[part]}`;
-        if (j < (addressParts.length - 1)) {
-          line = `${line}, `;
+        if (_.has(pair, part) && pair[part] !== '') {
+          if (typeof pair[part] === 'string') {
+            line = `${line}${pair[part].toUpperCase()}`;
+          } else {
+            line = `${line}${pair[part]}`;
+          }
+          if (j < (addressParts.length - 1)) {
+            line = `${line}, `;
+          }
         }
       });
       if (i < (dataArray.length - 1)) {
