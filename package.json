@@ -1,6 +1,6 @@
 {
   "name": "fhir-list-addresses",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Creates a list of all addresses within a FHIR record",
   "main": "index.js",
   "repository": "https://github.com/caremesh/fhir-list-addresses.git",
