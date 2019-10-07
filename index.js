@@ -82,9 +82,9 @@ module.exports = function(practitioner, opts = {}) {
       return x.state == state ? -1 : y.state == state ? 1 : 0; }
     );
   }
-
-  return {
-    data,
-    ...createLine(data),
-  }
+  
+  const result = createLine(data);
+  result.data = data;
+  
+  return result;
 };
