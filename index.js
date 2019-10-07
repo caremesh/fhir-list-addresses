@@ -85,6 +85,6 @@ module.exports = function(practitioner, opts = {}) {
 
   return {
     data,
-    ... createLine(data),
+    ...createLine(data),
   }
 };
